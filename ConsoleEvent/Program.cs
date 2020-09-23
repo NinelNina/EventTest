@@ -5,7 +5,7 @@ namespace ConsoleEvent
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             string loginSource = "user";
             string passwordSource = "123";
@@ -16,7 +16,13 @@ namespace ConsoleEvent
             Write("Введите пароль: ");
             string password = ReadLine();
 
-            if (login == loginSource && password == passwordSource)
+            CheckAccount.Info += InfoShow;
+            CheckAccount.Success += SuccessShow;
+            CheckAccount.Error += ErrorShow;
+
+            bool check = CheckAccount.Check(login, password);
+
+            if (check)
             {
                 WriteLine("Вход разрешён");
             }
@@ -24,6 +30,19 @@ namespace ConsoleEvent
             {
                 WriteLine("Вход запрещён");
             }
+        }
+        static void InfoShow(string message)
+        {
+            WriteLine($"[INFO] {message}");
+        }
+
+        static void ErrorShow(string message)
+        {
+            WriteLine($"[ERROR] {message}");
+        }
+        static void SuccessShow(string message)
+        {
+            WriteLine($"[SUCCESS] {message}");
         }
 
     }
