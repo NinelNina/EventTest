@@ -1,14 +1,16 @@
 ﻿using System;
+using System.IO;
 using static System.Console;
+using Logging;
 
 namespace ConsoleEvent
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            string loginSource = "user";
-            string passwordSource = "123";
+            const string loginSource = "user";
+            const string passwordSource = "123";
 
             Write("Введите логин: ");
             string login = ReadLine();            
@@ -16,7 +18,18 @@ namespace ConsoleEvent
             Write("Введите пароль: ");
             string password = ReadLine();
 
-            if (login == loginSource && password == passwordSource)
+            CheckAccount.Info += LogToConsole.InfoShow;
+            CheckAccount.Info += LogToFile.InfoLog;
+
+            CheckAccount.Success += LogToConsole.SuccessShow;
+            CheckAccount.Success += LogToFile.SuccessLog;
+
+            CheckAccount.Error += LogToConsole.ErrorShow;
+            CheckAccount.Error += LogToFile.ErrorLog;
+
+            bool check = CheckAccount.Check(login, password);
+
+            if (check)
             {
                 WriteLine("Вход разрешён");
             }
@@ -25,6 +38,7 @@ namespace ConsoleEvent
                 WriteLine("Вход запрещён");
             }
         }
+
 
     }
 }
