@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using static System.Console;
+using Logging;
 
 namespace ConsoleEvent
 {
@@ -17,14 +18,14 @@ namespace ConsoleEvent
             Write("Введите пароль: ");
             string password = ReadLine();
 
-            CheckAccount.Info += InfoShow;
-            CheckAccount.Info += InfoLog;
+            CheckAccount.Info += LogToConsole.InfoShow;
+            CheckAccount.Info += LogToFile.InfoLog;
 
-            CheckAccount.Success += SuccessShow;
-            CheckAccount.Success += SuccessLog;
+            CheckAccount.Success += LogToConsole.SuccessShow;
+            CheckAccount.Success += LogToFile.SuccessLog;
 
-            CheckAccount.Error += ErrorShow;
-            CheckAccount.Error += ErrorLog;
+            CheckAccount.Error += LogToConsole.ErrorShow;
+            CheckAccount.Error += LogToFile.ErrorLog;
 
             bool check = CheckAccount.Check(login, password);
 
@@ -37,41 +38,7 @@ namespace ConsoleEvent
                 WriteLine("Вход запрещён");
             }
         }
-        static void InfoShow(string message)
-        {
-            WriteLine($"[INFO] {message}");
-        }
 
-        static void ErrorShow(string message)
-        {
-            WriteLine($"[ERROR] {message}");
-        }
-        static void SuccessShow(string message)
-        {
-            WriteLine($"[SUCCESS] {message}");
-        }
-        
-        static void InfoLog(string message)
-        {
-            using (StreamWriter file = new StreamWriter("event_test.log"))
-            {
-                file.WriteLine($"[INFO] {message}");
-            }
-        }
-        static void SuccessLog(string message)
-        {
-            using (StreamWriter file = new StreamWriter("event_test.log"))
-            {
-                file.WriteLine($"[SUCCESS] {message}");
-            }
-        }        
-        static void ErrorLog(string message)
-        {
-            using (StreamWriter file = new StreamWriter("event_test.log"))
-            {
-                file.WriteLine($"[ERROR] {message}");
-            }
-        }
 
     }
 }
